@@ -4,4 +4,5 @@ export default defineConfig({
   formatters: true,
   unocss: true,
   vue: true,
+  ignores: ['public/cesium/**/*.*'],
 })
