@@ -1,7 +1,13 @@
 import { ImageryLayer, OpenStreetMapImageryProvider, Viewer } from 'cesium'
 
-export function useViewer(container: HTMLDivElement) {
-  const viewer = new Viewer(container, {
+// eslint-disable-next-line import/no-mutable-exports
+export let viewer: Viewer
+
+export function useViewer(container?: HTMLDivElement) {
+  if (viewer) {
+    return viewer
+  }
+  viewer = new Viewer(container!, {
     geocoder: false,
     homeButton: false,
     sceneModePicker: false,
@@ -23,7 +29,7 @@ export function useViewer(container: HTMLDivElement) {
 
   const cameraController = viewer.scene.screenSpaceCameraController
   cameraController.minimumZoomDistance = 3
-  cameraController.maximumZoomDistance = 200
+  cameraController.maximumZoomDistance = 600
 
   // 摄像机不能进入地下
   viewer.scene.globe.depthTestAgainstTerrain = true

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Viewer } from 'cesium'
+import { useGLTF } from '#imports'
 import { Cartesian3, Color, HeightReference, Math, PolygonHierarchy } from 'cesium'
 
 const cesiumContainerRef = useTemplateRef('cesiumContainer')
@@ -38,8 +39,10 @@ onMounted(() => {
     })
   })
 
+  useGLTF('/data/Air.glb', { position: Cartesian3.fromDegrees(113.36629986763, 23.15732289356693, 3) })
+
   viewer.camera.flyTo({
-    destination: Cartesian3.fromDegrees(113.36629986763, 23.15732289356693, 10),
+    destination: Cartesian3.fromDegrees(113.36629986763, 23.15732289356693, 70),
     orientation: {
       heading: Math.toRadians(-90),
       pitch: 0,
