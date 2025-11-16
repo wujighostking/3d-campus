@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Viewer } from 'cesium'
-import { Cartesian3, Color, HeightReference, PolygonHierarchy } from 'cesium'
+import { Cartesian3, Color, HeightReference, Math, PolygonHierarchy } from 'cesium'
 
 const cesiumContainerRef = useTemplateRef('cesiumContainer')
 
@@ -39,7 +39,11 @@ onMounted(() => {
   })
 
   viewer.camera.flyTo({
-    destination: Cartesian3.fromDegrees(113.36629986763, 23.15732289356693, 400),
+    destination: Cartesian3.fromDegrees(113.36629986763, 23.15732289356693, 10),
+    orientation: {
+      heading: Math.toRadians(-90),
+      pitch: 0,
+    },
   })
 })
 

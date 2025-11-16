@@ -1,7 +1,7 @@
 import { ImageryLayer, OpenStreetMapImageryProvider, Viewer } from 'cesium'
 
 export function useViewer(container: HTMLDivElement) {
-  return new Viewer(container, {
+  const viewer = new Viewer(container, {
     geocoder: false,
     homeButton: false,
     sceneModePicker: false,
@@ -20,4 +20,13 @@ export function useViewer(container: HTMLDivElement) {
     })),
     // terrain: Terrain.fromWorldTerrain(),
   })
+
+  const cameraController = viewer.scene.screenSpaceCameraController
+  cameraController.minimumZoomDistance = 3
+  cameraController.maximumZoomDistance = 200
+
+  // 摄像机不能进入地下
+  viewer.scene.globe.depthTestAgainstTerrain = true
+
+  return viewer
 }
