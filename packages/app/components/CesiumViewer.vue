@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Viewer } from 'cesium'
-import { Cartesian3, Color } from 'cesium'
+import { Cartesian3, Color, HeightReference, PolygonHierarchy } from 'cesium'
 
 const cesiumContainerRef = useTemplateRef('cesiumContainer')
 
@@ -20,6 +20,24 @@ onMounted(() => {
     clampToGround: true,
   })
   viewer.dataSources.add(data)
+
+  geoJsonToBuildingModel('/data/泰山区宿舍1-4.geojson').then((positions) => {
+    positions.forEach((position) => {
+      viewer.entities.add({
+        polygon: {
+          hierarchy: new PolygonHierarchy(position), // 底面形状
+          height: 0, // 底部高度（从地面0开始）
+          heightReference: HeightReference.CLAMP_TO_TERRAIN,
+          extrudedHeight: 30, // 顶部高度（总高度100米，可调整）
+          material: Color.WHITE, // 填充材质（半透明红色）
+          outline: true, // 显示轮廓
+          outlineColor: Color.BLACK, // 轮廓颜色
+          outlineWidth: 2, // 轮廓宽度
+        },
+      })
+    })
+  })
+
   viewer.camera.flyTo({
     destination: Cartesian3.fromDegrees(113.36629986763, 23.15732289356693, 400),
   })

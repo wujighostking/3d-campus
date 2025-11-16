@@ -1,4 +1,4 @@
-import { ImageryLayer, OpenStreetMapImageryProvider, Terrain, Viewer } from 'cesium'
+import { ImageryLayer, OpenStreetMapImageryProvider, Viewer } from 'cesium'
 
 export function useViewer(container: HTMLDivElement) {
   return new Viewer(container, {
@@ -13,9 +13,11 @@ export function useViewer(container: HTMLDivElement) {
     creditContainer: document.createElement('div'),
     fullscreenButton: false,
 
+    infoBox: false,
+
     baseLayer: new ImageryLayer(new OpenStreetMapImageryProvider({
       url: 'https://tile.openstreetmap.org/',
     })),
-    terrain: Terrain.fromWorldTerrain(),
+    // terrain: Terrain.fromWorldTerrain(),
   })
 }

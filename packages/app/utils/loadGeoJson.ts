@@ -1,4 +1,4 @@
-import { GeoJsonDataSource } from 'cesium'
+import { Cartesian3, GeoJsonDataSource } from 'cesium'
 import { EMPTY_OBJ, isFunction } from '~~/packages/shared/utils'
 
 interface Options extends GeoJsonDataSource.LoadOptions {
@@ -22,4 +22,26 @@ export function loadGeoJson(url: string, options?: Options) {
 
     return data
   })
+}
+
+export async function geoJsonToBuildingModel(url: string) {
+  const geojsonData = await (await fetch(url)).json()
+
+  let positions: Cartesian3[][] = []
+
+  // 解析GeoJSON并生成多面体（棱柱）
+  geojsonData?.features?.forEach?.((feature: any) => {
+    const geometry = feature.geometry
+    if (geometry.type === 'Polygon') {
+      positions = geometry.coordinates.map((coordinates: [number, number][]) => {
+        return coordinates.map((coord: [number, number]) => {
+          const longitude = coord[0] // 经度
+          const latitude = coord[1] // 纬度
+          return Cartesian3.fromDegrees(longitude, latitude)
+        })
+      })
+    }
+  })
+
+  return positions
 }
