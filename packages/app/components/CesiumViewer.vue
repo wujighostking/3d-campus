@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Cartesian3, Color, Viewer } from 'cesium'
+import { Cartesian3, Color, ImageryLayer, OpenStreetMapImageryProvider, Terrain, Viewer } from 'cesium'
 
 const cesiumContainerRef = useTemplateRef('cesiumContainer')
 
@@ -20,6 +20,11 @@ onMounted(() => {
     timeline: false,
     creditContainer: document.createElement('div'),
     fullscreenButton: false,
+
+    baseLayer: new ImageryLayer(new OpenStreetMapImageryProvider({
+      url: 'https://tile.openstreetmap.org/',
+    })),
+    terrain: Terrain.fromWorldTerrain(),
   })
 
   // 加载泰山区宿舍的GeoJSON数据
@@ -27,7 +32,7 @@ onMounted(() => {
     stroke: Color.fromCssColorString('#aaaa9d'),
     fill: Color.fromCssColorString('#aaaa9d').withAlpha(0.5),
     strokeWidth: 3,
-    markerSymbol: '?',
+    clampToGround: true,
   })
   viewer.dataSources.add(data)
   viewer.camera.flyTo({
