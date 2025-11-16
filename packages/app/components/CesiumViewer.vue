@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Cartesian3, Color, ImageryLayer, OpenStreetMapImageryProvider, Terrain, Viewer } from 'cesium'
+import type { Viewer } from 'cesium'
+import { Cartesian3, Color } from 'cesium'
 
 const cesiumContainerRef = useTemplateRef('cesiumContainer')
 
@@ -9,23 +10,7 @@ onMounted(() => {
   if (!cesiumContainerRef.value)
     return
 
-  viewer = new Viewer(cesiumContainerRef.value, {
-    geocoder: false,
-    homeButton: false,
-    sceneModePicker: false,
-    baseLayerPicker: false,
-    navigationHelpButton: false,
-
-    animation: false,
-    timeline: false,
-    creditContainer: document.createElement('div'),
-    fullscreenButton: false,
-
-    baseLayer: new ImageryLayer(new OpenStreetMapImageryProvider({
-      url: 'https://tile.openstreetmap.org/',
-    })),
-    terrain: Terrain.fromWorldTerrain(),
-  })
+  viewer = useViewer(cesiumContainerRef.value)
 
   // 加载泰山区宿舍的GeoJSON数据
   const data = loadGeoJson('/data/泰山区宿舍.geojson', {
