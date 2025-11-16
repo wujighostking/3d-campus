@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Cartesian3, Viewer } from 'cesium'
+import { Cartesian3, Color, Viewer } from 'cesium'
 
 const cesiumContainerRef = useTemplateRef('cesiumContainer')
 
@@ -22,8 +22,16 @@ onMounted(() => {
     fullscreenButton: false,
   })
 
+  // 加载泰山区宿舍的GeoJSON数据
+  const data = loadGeoJson('/data/泰山区宿舍.geojson', {
+    stroke: Color.fromCssColorString('#aaaa9d'),
+    fill: Color.fromCssColorString('#aaaa9d').withAlpha(0.5),
+    strokeWidth: 3,
+    markerSymbol: '?',
+  })
+  viewer.dataSources.add(data)
   viewer.camera.flyTo({
-    destination: Cartesian3.fromDegrees(113.347037, 23.157565, 400),
+    destination: Cartesian3.fromDegrees(113.36629986763, 23.15732289356693, 400),
   })
 })
 
